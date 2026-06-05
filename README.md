@@ -81,7 +81,7 @@ CREATE DATABASE your_database OWNER your_username;
 
 ### 2. Clone the repository
 ```bash
-git clone [repository-url]
+git clone https://github.com/ravendr17/music-rankings.git
 cd MusicRankings
 ```
 
