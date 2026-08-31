@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import AddNewView from '../components/AddNewView';
 
 export default function App() {
-  const [view, setView] = useState('all-time');
+  const [view, setView] = useState('add-new');
 
   return (
     <div className='flex flex-col h-screen'>
@@ -11,7 +12,7 @@ export default function App() {
         {view === 'all-time' && <h1>All-Time</h1>}
         {view === 'annual' && <h1>Annual</h1>}
         {view === 'monthly' && <h1>Monthly</h1>}
-        {view === 'add-new' && <h1>Add New</h1>}
+        {view === 'add-new' && <AddNewView />}
       </div>
     </div>
   );
