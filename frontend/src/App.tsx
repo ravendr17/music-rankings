@@ -2,7 +2,7 @@ import './App.css'
 
 function App() {
   return (
-    <h1>Music Rankings</h1>  
+    <div className='font-bold'>Music Rankings</div>
   );
 }
 
