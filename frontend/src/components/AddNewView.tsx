@@ -46,12 +46,12 @@ export default function AddNewView() {
         <input 
           type="number" 
           placeholder="Year"
-          className="border p-2"
+          className="border-2 rounded-md p-2 bg-white"
           value={year}
           onChange={(e) => setYear(e.target.value)}
         />
         <select
-          className="border px-10 py-2"
+          className="border-2 rounded-md px-10 py-2.5 bg-white"
           value={month}
           onChange={(e) => setMonth(Number(e.target.value))}
         >
@@ -66,19 +66,26 @@ export default function AddNewView() {
         <input 
           type="number" 
           placeholder="Total Hours"
-          className="border p-2"
+          className="border-2 rounded-md p-2 bg-white"
           value={totalHours}
           onChange={(e) => setTotalHours(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-[1fr_5fr_5fr_1fr] gap-2 items-center px-4">
-        <span className="font-bold text-center">Rank</span>
-        <span className="font-bold">Song Title</span>
-        <span className="font-bold">Song Artist</span>
-        <span className="font-bold">Play Count</span>
+      <div className="grid grid-cols-[1fr_6fr_6fr_1fr] gap-2 items-center px-4 py-2">
+        <span className="font-bold text-center text-lg">Rank</span>
+        <span className="font-bold text-lg">Song Title</span>
+        <span className="font-bold text-lg">Song Artist</span>
+        <span className="font-bold text-lg">Play Count</span>
         {songs.map((song) => (
           <SongInputRow key={song.id} song={song} updateSong={updateSong} />
         ))}
+      </div>
+      <div className="flex justify-end px-4 py-2">
+        <button 
+          className="border rounded-md px-12 py-2.5 bg-green-600 text-white font-bold text-lg
+            hover:bg-green-500 cursor-pointer"
+        >Submit
+        </button>
       </div>
     </div>
   );

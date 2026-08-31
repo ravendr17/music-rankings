@@ -6,7 +6,7 @@ export default function App() {
   const [view, setView] = useState('add-new');
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col h-screen bg-green-50'>
       <Navbar view={view} setView={setView} />
       <div className='flex-1'>
         {view === 'all-time' && <h1>All-Time</h1>}

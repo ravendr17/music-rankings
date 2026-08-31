@@ -12,12 +12,12 @@ const views = [
 
 export default function Navbar({view, setView}: NavbarProps) {
   return (
-    <div className='flex px-4 py-2 justify-between items-center bg-gray-200'>
-      <span className="font-bold text-lg">MusicRankings</span>
+    <div className='flex px-4 py-2 justify-between items-center bg-gray-100'>
+      <span className="font-bold text-xl">MusicRankings</span>
         <div className="flex gap-6">
           {views.map(v => (
             <button
-              className={`border rounded-md px-8 py-2 cursor-pointer 
+              className={`border-2 rounded-md px-10 py-2 cursor-pointer 
                 ${view === v.id ? 'text-white bg-black': 'bg-white hover:bg-gray-200'}`}
               key={v.id}
               onClick={() => setView(v.id)}
