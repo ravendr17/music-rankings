@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar';
-import AddNewView from '../components/AddNewView';
+import Navbar from './components/Navbar';
+import AddNewView from './components/AddNewView';
 
 export default function App() {
   const [view, setView] = useState('add-new');
