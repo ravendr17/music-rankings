@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SongInputRow from "./SongInputRow";
 
 const months = [
   {id: 1, label: 'January'},
@@ -19,6 +20,25 @@ export default function AddNewView() {
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
   const [totalHours, setTotalHours] = useState('');
+
+  const [songs, setSongs] = useState([
+    {id: 1, title: '', artist: '', playCount: ''},
+    {id: 2, title: '', artist: '', playCount: ''},
+    {id: 3, title: '', artist: '', playCount: ''},
+    {id: 4, title: '', artist: '', playCount: ''},
+    {id: 5, title: '', artist: '', playCount: ''},
+    {id: 6, title: '', artist: '', playCount: ''},
+    {id: 7, title: '', artist: '', playCount: ''},
+    {id: 8, title: '', artist: '', playCount: ''},
+    {id: 9, title: '', artist: '', playCount: ''},
+    {id: 10, title: '', artist: '', playCount: ''}
+  ]);
+
+  function updateSong(id: number, field: 'title' | 'artist' | 'playCount', value: string) {
+    setSongs(songs.map((s) => (
+      s.id === id ? {...s, [field]: value}: s
+    )));
+  }
 
   return (
     <div className="flex flex-col">
@@ -50,6 +70,15 @@ export default function AddNewView() {
           value={totalHours}
           onChange={(e) => setTotalHours(e.target.value)}
         />
+      </div>
+      <div className="grid grid-cols-[1fr_5fr_5fr_1fr] gap-2 items-center px-4">
+        <span className="font-bold text-center">Rank</span>
+        <span className="font-bold">Song Title</span>
+        <span className="font-bold">Song Artist</span>
+        <span className="font-bold">Play Count</span>
+        {songs.map((song) => (
+          <SongInputRow key={song.id} song={song} updateSong={updateSong} />
+        ))}
       </div>
     </div>
   );
