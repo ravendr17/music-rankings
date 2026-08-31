@@ -6,7 +6,7 @@ export default function App() {
 
   return (
     <div className='flex flex-col h-screen'>
-      <Navbar setView={setView} />
+      <Navbar view={view} setView={setView} />
       <div className='flex-1'>
         {view === 'all-time' && <h1>All-Time</h1>}
         {view === 'annual' && <h1>Annual</h1>}
