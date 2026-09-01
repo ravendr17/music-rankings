@@ -1,5 +1,7 @@
 import { useState } from "react";
 import SongInputRow from "./SongInputRow";
+import {z} from "zod";
+import { reportSchema } from "../schemas";
 
 const months = [
   {id: 1, label: 'January'},
@@ -38,6 +40,25 @@ export default function AddNewView() {
     setSongs(songs.map((s) => (
       s.id === id ? {...s, [field]: value}: s
     )));
+  }
+
+  function handleSubmit() {
+    const filledSongs = songs.filter(s => (
+      s.title.trim() || s.artist.trim() || s.playCount.trim()
+    ));
+
+    const result = reportSchema.safeParse({
+      year,
+      month,
+      totalHours: totalHours || undefined, 
+      songs: filledSongs
+    });
+
+    if (!result.success) {
+      console.log(z.flattenError(result.error));
+      return;
+    }
+    console.log(result);
   }
 
   return (
@@ -84,6 +105,7 @@ export default function AddNewView() {
         <button 
           className="border rounded-md px-12 py-2.5 bg-green-600 text-white font-bold text-lg
             hover:bg-green-500 cursor-pointer"
+          onClick={() => handleSubmit()}
         >Submit
         </button>
       </div>
