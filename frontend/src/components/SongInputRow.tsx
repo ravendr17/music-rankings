@@ -13,21 +13,21 @@ export default function SongInputRow({song, updateSong} : SongInputRowProps) {
       <input 
         type="text"
         placeholder="Song Title"
-        className="border rounded-md p-1.5 text-center bg-white"
+        className="border rounded p-1.5 text-center bg-white"
         value={song.title}
         onChange={(e) => updateSong(song.id, 'title', e.target.value)}
       />
       <input 
         type="text"
         placeholder="Song Artist"
-        className="border rounded-md p-1.5 text-center bg-white"
+        className="border rounded p-1.5 text-center bg-white"
         value={song.artist}
         onChange={(e) => updateSong(song.id, 'artist', e.target.value)}
       />
       <input
       type="number"
         placeholder="Play Count"
-        className="border rounded-md p-1.5 text-center bg-white"
+        className="border rounded p-1.5 text-center bg-white"
         value={song.playCount}
         onChange={(e) => updateSong(song.id, 'playCount', e.target.value)}
       />

@@ -17,7 +17,7 @@ export default function Navbar({view, setView}: NavbarProps) {
         <div className="flex gap-6">
           {views.map(v => (
             <button
-              className={`border-2 rounded-md px-10 py-2 cursor-pointer 
+              className={`border-2 rounded px-10 py-2 cursor-pointer 
                 ${view === v.id ? 'text-white bg-black': 'bg-white hover:bg-gray-200'}`}
               key={v.id}
               onClick={() => setView(v.id)}

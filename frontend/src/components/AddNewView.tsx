@@ -125,12 +125,12 @@ export default function AddNewView() {
           <input 
             type="number" 
             placeholder="Year"
-            className="border-2 rounded-md p-2 bg-white"
+            className="border-2 rounded p-2 bg-white"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           />
           <select
-            className="border-2 rounded-md px-10 py-2.5 bg-white"
+            className="border-2 rounded px-10 py-2.5 bg-white"
             value={month}
             onChange={(e) => setMonth(Number(e.target.value))}
           >
@@ -145,7 +145,7 @@ export default function AddNewView() {
           <input 
             type="number" 
             placeholder="Total Hours"
-            className="border-2 rounded-md p-2 bg-white"
+            className="border-2 rounded p-2 bg-white"
             value={totalHours}
             onChange={(e) => setTotalHours(e.target.value)}
           />
@@ -161,7 +161,7 @@ export default function AddNewView() {
         </div>
         <div className="flex justify-end px-4 py-2">
           <button 
-            className="border rounded-md px-12 py-2.5 bg-green-600 text-white font-bold text-lg
+            className="border rounded px-12 py-2.5 bg-green-600 text-white font-bold text-lg
               hover:bg-green-500 cursor-pointer"
             onClick={() => handleSend()}
           >Send
