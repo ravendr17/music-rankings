@@ -22,11 +22,14 @@ const months = [
 
 export default function AddNewView() {
   const errorRef = useRef<HTMLDialogElement>(null);
+  const confirmRef = useRef<HTMLDialogElement>(null);
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
   const [totalHours, setTotalHours] = useState('');
-  const [error, setError] = useState('');
-  const [showError, setShowError] = useState(false);
+  const [errors, setErrors] = useState('');
+  const [showErrors, setShowErrors] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [payload, setPayload] = useState<Report | null>(null);
 
   const [songs, setSongs] = useState(
     Array.from({length: 10}, (_, i) => ({
@@ -38,12 +41,20 @@ export default function AddNewView() {
   );
 
   useEffect(() => {
-    if (showError) {
+    if (showErrors) {
       errorRef.current?.showModal();
     } else {
       errorRef.current?.close();
     }
-  }, [showError]);
+  }, [showErrors]);
+
+  useEffect(() => {
+    if (showConfirm) {
+      confirmRef.current?.showModal();
+    } else {
+      confirmRef.current?.close();
+    }
+  }, [showConfirm]);
 
   function updateSong(id: number, field: 'title' | 'artist' | 'playCount', value: string) {
     setSongs(songs.map((s) => (
@@ -52,16 +63,17 @@ export default function AddNewView() {
   }
 
   function handleSend() {
-    const payload = validateInput();
+    const data = validateInput();
 
-    if (!payload) return;
+    if (!data) return;
 
-    sendPayload(payload);
+    setPayload(data);
+    setShowConfirm(true);
   }
 
   function validateInput() {
-    setError('');
-    setShowError(false);
+    setErrors('');
+    setShowErrors(false);
 
     const filledSongs = songs.filter(s => (
       s.title.trim() || s.artist.trim() || s.playCount.trim()
@@ -76,8 +88,8 @@ export default function AddNewView() {
 
     if (!parseResult.success) {
       const errors = (z.flattenError(parseResult.error));
-      setError(JSON.stringify(errors.fieldErrors, null, 2));
-      setShowError(true);
+      setErrors(JSON.stringify(errors.fieldErrors, null, 2));
+      setShowErrors(true);
       return;
     }
 
@@ -93,16 +105,16 @@ export default function AddNewView() {
       });
 
       if (!response.ok) {
-        setError(`Failed to submit: ${response.statusText}`);
-        setShowError(true);
+        setErrors(`Failed to submit: ${response.statusText}`);
+        setShowErrors(true);
         return;
       }
 
       const result = await response.json();
       console.log(result);
     } catch (error) {
-      setError(error instanceof Error ? error.message: 'Unknown error.');
-      setShowError(true);
+      setErrors(error instanceof Error ? error.message: 'Unknown error.');
+      setShowErrors(true);
     }
   }
 
@@ -161,16 +173,56 @@ export default function AddNewView() {
         ref={errorRef} 
         className="m-auto rounded-md bg-white backdrop:bg-black/50"
       >
-        <div className="flex flex-col p-6 gap-4">
-          <span className="text-lg font-bold text-red-600 flex justify-center">Errors</span>
-          <pre className="text-sm">{error}</pre>
-          <div className="flex justify-end">
-            <button 
-              onClick={() => setShowError(false)}
-              className="bg-red-600 text-white px-8 py-2 rounded"
-            >
-              Close
-            </button>
+        <div className="flex flex-col">
+          <div className="text-lg font-bold text-white bg-red-600 text-center py-1">Errors</div>
+          <div className="flex flex-col p-5 gap-6">
+            <pre className="text-sm">{errors}</pre>
+            <div className="flex justify-end">
+              <button 
+                className="bg-red-600 font-bold text-white px-8 py-2 rounded 
+                  cursor-pointer hover:bg-red-500"
+                onClick={() => setShowErrors(false)}
+              >
+                Close
+              </button>
+          </div>
+          
+          </div>
+        </div>
+      </dialog>
+
+      <dialog 
+        ref={confirmRef} 
+        className="m-auto rounded-md bg-white backdrop:bg-black/50"
+      >
+        <div className="flex flex-col">
+          <span 
+            className="text-lg font-bold text-white bg-black text-center py-1"
+          >Confirm submission
+          </span>
+          <div className="flex flex-col p-5 gap-12">
+            <span className="font-bold">Ready to submit?</span>
+            <div className="flex justify-between gap-28">
+              <button 
+                onClick={() => {
+                  if (payload) {
+                    sendPayload(payload);
+                    setShowConfirm(false);
+                  }
+                }}
+                className="bg-green-600 font-bold text-white px-8 py-2 rounded 
+                  cursor-pointer hover:bg-green-500"
+              >
+                Yes
+              </button>
+              <button 
+                onClick={() => setShowConfirm(false)}
+                className="bg-red-600 font-bold text-white px-8 py-2 rounded 
+                  cursor-pointer hover:bg-red-500"
+              >
+                No
+              </button>
+            </div>
           </div>
         </div>
       </dialog>
