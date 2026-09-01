@@ -27,3 +27,5 @@ export const reportSchema = z.object({
     .min(1, 'At least 1 song is required.')
     .max(10, 'Only 10 songs are allowed.')
 });
+
+export type Report = z.infer<typeof reportSchema>;

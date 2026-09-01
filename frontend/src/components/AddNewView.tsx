@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import SongInputRow from "./SongInputRow";
 import {z} from "zod";
-import { reportSchema } from "../schemas";
+import { reportSchema, type Report } from "../schemas";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,26 +21,21 @@ const months = [
 ];
 
 export default function AddNewView() {
+  const errorRef = useRef<HTMLDialogElement>(null);
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
   const [totalHours, setTotalHours] = useState('');
-
-  const [songs, setSongs] = useState([
-    {id: 1, title: '', artist: '', playCount: ''},
-    {id: 2, title: '', artist: '', playCount: ''},
-    {id: 3, title: '', artist: '', playCount: ''},
-    {id: 4, title: '', artist: '', playCount: ''},
-    {id: 5, title: '', artist: '', playCount: ''},
-    {id: 6, title: '', artist: '', playCount: ''},
-    {id: 7, title: '', artist: '', playCount: ''},
-    {id: 8, title: '', artist: '', playCount: ''},
-    {id: 9, title: '', artist: '', playCount: ''},
-    {id: 10, title: '', artist: '', playCount: ''}
-  ]);
-
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
-  const errorRef = useRef<HTMLDialogElement>(null);
+
+  const [songs, setSongs] = useState(
+    Array.from({length: 10}, (_, i) => ({
+      id: i + 1,
+      title: '',
+      artist: '',
+      playCount: ''
+    }))
+  );
 
   useEffect(() => {
     if (showError) {
@@ -56,7 +51,15 @@ export default function AddNewView() {
     )));
   }
 
-  async function handleSubmit() {
+  function handleSend() {
+    const payload = validateInput();
+
+    if (!payload) return;
+
+    sendPayload(payload);
+  }
+
+  function validateInput() {
     setError('');
     setShowError(false);
 
@@ -78,11 +81,15 @@ export default function AddNewView() {
       return;
     }
 
+    return parseResult.data;
+  }
+
+  async function sendPayload(payload: Report) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/reports`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(parseResult.data)
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
@@ -144,8 +151,8 @@ export default function AddNewView() {
           <button 
             className="border rounded-md px-12 py-2.5 bg-green-600 text-white font-bold text-lg
               hover:bg-green-500 cursor-pointer"
-            onClick={() => handleSubmit()}
-          >Submit
+            onClick={() => handleSend()}
+          >Send
           </button>
         </div>
       </div>
