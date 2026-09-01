@@ -3,6 +3,8 @@ import SongInputRow from "./SongInputRow";
 import {z} from "zod";
 import { reportSchema } from "../schemas";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const months = [
   {id: 1, label: 'January'},
   {id: 2, label: 'February'},
@@ -42,23 +44,39 @@ export default function AddNewView() {
     )));
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const filledSongs = songs.filter(s => (
       s.title.trim() || s.artist.trim() || s.playCount.trim()
     ));
 
-    const result = reportSchema.safeParse({
+    const parseResult = reportSchema.safeParse({
       year,
       month,
       totalHours: totalHours || undefined, 
       songs: filledSongs
     });
 
-    if (!result.success) {
-      console.log(z.flattenError(result.error));
+    if (!parseResult.success) {
+      console.log(z.flattenError(parseResult.error));
       return;
     }
-    console.log(result);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/reports`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(parseResult.data)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error');
+      }
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
