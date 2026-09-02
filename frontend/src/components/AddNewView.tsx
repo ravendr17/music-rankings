@@ -3,6 +3,7 @@ import SongInputRow from "./SongInputRow";
 import {z} from "zod";
 import { reportSchema, type Report } from "../schemas";
 import ErrorsModal from "./ErrorsModal";
+import ConfirmModal from "./ConfirmModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,7 +24,7 @@ const months = [
 
 export default function AddNewView() {
   const errorsModalRef = useRef<HTMLDialogElement>(null);
-  const confirmRef = useRef<HTMLDialogElement>(null);
+  const confirmModalRef = useRef<HTMLDialogElement>(null);
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
   const [totalHours, setTotalHours] = useState('');
@@ -51,9 +52,9 @@ export default function AddNewView() {
 
   useEffect(() => {
     if (showConfirm) {
-      confirmRef.current?.showModal();
+      confirmModalRef.current?.showModal();
     } else {
-      confirmRef.current?.close();
+      confirmModalRef.current?.close();
     }
   }, [showConfirm]);
 
@@ -170,43 +171,18 @@ export default function AddNewView() {
         </div>
       </div>
       
-      <ErrorsModal errorsRef={errorsModalRef} errors={errors} setShowErrors={setShowErrors} />
+      <ErrorsModal 
+        errorsModalRef={errorsModalRef} 
+        errors={errors} 
+        setShowErrors={setShowErrors} 
+      />
 
-      <dialog 
-        ref={confirmRef} 
-        className="m-auto rounded-md bg-white backdrop:bg-black/50"
-      >
-        <div className="flex flex-col">
-          <span 
-            className="text-lg font-bold text-white bg-black text-center py-1"
-          >Confirm submission
-          </span>
-          <div className="flex flex-col p-5 gap-12">
-            <span className="font-bold">Ready to submit?</span>
-            <div className="flex justify-between gap-28">
-              <button 
-                onClick={() => {
-                  if (payload) {
-                    sendPayload(payload);
-                    setShowConfirm(false);
-                  }
-                }}
-                className="bg-green-600 font-bold text-white px-8 py-2 rounded 
-                  cursor-pointer hover:bg-green-500"
-              >
-                Yes
-              </button>
-              <button 
-                onClick={() => setShowConfirm(false)}
-                className="bg-red-600 font-bold text-white px-8 py-2 rounded 
-                  cursor-pointer hover:bg-red-500"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      </dialog>
+      <ConfirmModal
+        confirmModalRef={confirmModalRef}
+        payload={payload}
+        setShowConfirm={setShowConfirm}
+        sendPayload={sendPayload}
+      />
     </>
   );
 }

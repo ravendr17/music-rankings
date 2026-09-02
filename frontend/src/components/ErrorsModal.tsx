@@ -1,13 +1,17 @@
 interface ErrorsModalProps {
+  errorsModalRef: React.RefObject<HTMLDialogElement | null>;
   errors: string;
   setShowErrors: (flag: boolean) => void;
-  errorsRef: React.RefObject<HTMLDialogElement | null>;
 }
 
-export default function ErrorsModal({errors, setShowErrors, errorsRef}: ErrorsModalProps) {
+export default function ErrorsModal({
+  errorsModalRef,
+  errors,
+  setShowErrors
+}: ErrorsModalProps) {
   return (
     <dialog 
-      ref={errorsRef} 
+      ref={errorsModalRef} 
       className="m-auto rounded-md bg-white backdrop:bg-black/50"
     >
       <div className="flex flex-col">
