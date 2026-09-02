@@ -10,6 +10,23 @@ dist/
 dist-ssr/
 build/
 
+# Python / FastAPI / uv
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.uv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
 # Logs
 logs/
 *.log
