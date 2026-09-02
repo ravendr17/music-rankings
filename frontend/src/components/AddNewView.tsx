@@ -82,7 +82,7 @@ export default function AddNewView() {
     const parseResult = reportSchema.safeParse({
       year,
       month,
-      totalHours: totalHours || undefined, 
+      totalHours: totalHours, 
       songs: filledSongs
     });
 

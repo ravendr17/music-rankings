@@ -20,9 +20,8 @@ export const reportSchema = z.object({
     .min(1)
     .max(12),
   totalHours: z.coerce.number()
-    .min(1)
-    .max(999999, 'Total hours cannot exceed 999999.')
-    .optional(),
+    .min(1, 'Total hours is required.')
+    .max(999999, 'Total hours cannot exceed 999999.'),
   songs: z.array(songSchema)
     .min(1, 'At least 1 song is required.')
     .max(10, 'Only 10 songs are allowed.')
