@@ -4,8 +4,7 @@ import {z} from "zod";
 import { reportSchema, type Report } from "../schemas";
 import ErrorsModal from "./ErrorsModal";
 import ConfirmModal from "./ConfirmModal";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from "../env";
 
 const months = [
   {id: 1, label: 'January'},
