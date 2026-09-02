@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SongInputRow from "./SongInputRow";
 import {z} from "zod";
 import { reportSchema, type Report } from "../schemas";
+import ErrorsModal from "./ErrorsModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,7 +22,7 @@ const months = [
 ];
 
 export default function AddNewView() {
-  const errorRef = useRef<HTMLDialogElement>(null);
+  const errorsModalRef = useRef<HTMLDialogElement>(null);
   const confirmRef = useRef<HTMLDialogElement>(null);
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
@@ -42,9 +43,9 @@ export default function AddNewView() {
 
   useEffect(() => {
     if (showErrors) {
-      errorRef.current?.showModal();
+      errorsModalRef.current?.showModal();
     } else {
-      errorRef.current?.close();
+      errorsModalRef.current?.close();
     }
   }, [showErrors]);
 
@@ -169,27 +170,7 @@ export default function AddNewView() {
         </div>
       </div>
       
-      <dialog 
-        ref={errorRef} 
-        className="m-auto rounded-md bg-white backdrop:bg-black/50"
-      >
-        <div className="flex flex-col">
-          <div className="text-lg font-bold text-white bg-red-600 text-center py-1">Errors</div>
-          <div className="flex flex-col p-5 gap-6">
-            <pre className="text-sm">{errors}</pre>
-            <div className="flex justify-end">
-              <button 
-                className="bg-red-600 font-bold text-white px-8 py-2 rounded 
-                  cursor-pointer hover:bg-red-500"
-                onClick={() => setShowErrors(false)}
-              >
-                Close
-              </button>
-          </div>
-          
-          </div>
-        </div>
-      </dialog>
+      <ErrorsModal errorsRef={errorsModalRef} errors={errors} setShowErrors={setShowErrors} />
 
       <dialog 
         ref={confirmRef} 
