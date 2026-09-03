@@ -98,15 +98,27 @@ export default function AddNewView() {
   }
 
   async function sendPayload(payload: Report) {
+    const apiPayload = {
+      year: payload.year,
+      month: payload.month,
+      total_hours: payload.totalHours,
+      songs: payload.songs.map((song) => ({
+        title: song.title,
+        artist: song.artist,
+        play_count: song.playCount,
+      })),
+    };
+
     try {
       const response = await fetch(`${API_BASE_URL}/api/reports`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
+        body: JSON.stringify(apiPayload)
       });
 
       if (!response.ok) {
-        setErrors(`Failed to submit: ${response.statusText}`);
+        const detail = await response.json();
+        setErrors(JSON.stringify(detail, null, 2));
         setShowErrors(true);
         return;
       }
