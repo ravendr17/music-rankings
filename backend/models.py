@@ -10,7 +10,7 @@ class Song(Base):
     artist: Mapped[str]
 
     __table_args__= (
-        UniqueConstraint('title', 'artist', name='uq_songs_title_artist')
+        UniqueConstraint('title', 'artist', name='uq_songs_title_artist'),
     )
 
 
@@ -23,7 +23,7 @@ class Report(Base):
     total_hours: Mapped[int]
 
     __table_args__ = (
-        UniqueConstraint('year', 'month', name='uq_reports_year_month')
+        UniqueConstraint('year', 'month', name='uq_reports_year_month'),
     )
 
 
@@ -47,5 +47,5 @@ class Ranking(Base):
             'report_id', 
             'song_id', 
             name='uq_rankings_report_id_song_id'
-        )
+        ),
     )
