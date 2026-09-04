@@ -10,3 +10,10 @@ class ReportCreate(BaseModel):
     month: int = Field(ge=1, le=12)
     total_hours: int = Field(ge=1, le=999999)
     songs: list[SongCreate] = Field(min_length=1, max_length=10)
+
+class ReportResponse(BaseModel):
+    id: int
+    year: int
+    month: int
+
+    model_config = {'from_attributes': True}
