@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import ReportCreate
+from database import Base, engine
+import models
+
+Base.metadata.create_all(engine)
 
 app = FastAPI()
 
