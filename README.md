@@ -7,9 +7,9 @@ modern fullstack web app with a proper relational database.
 
 ## Tech Stack
 - Frontend: React.js, Tailwind CSS
-- Backend: FastAPI, SQLAlchemy
+- Backend: Express.js
 - Database: PostgreSQL
-- Tools: Docker
+- Tools: Docker Compose
 
 ## Features
 - Input monthly listening reports (song titles, artists, play counts)
