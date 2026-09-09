@@ -1,4 +1,8 @@
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import Fastify from 'fastify';
+
+const db = drizzle(process.env.DATABASE_URL!);
 
 const fastify = Fastify({
   logger: true
