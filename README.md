@@ -7,7 +7,7 @@ modern fullstack web app with a proper relational database.
 
 ## Tech Stack
 - Frontend: React.js, Tailwind CSS
-- Backend: Fastify
+- Backend: Fastify, Drizzle ORM
 - Database: PostgreSQL
 - Tools: Docker
 
