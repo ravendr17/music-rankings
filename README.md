@@ -7,7 +7,7 @@ modern fullstack web app with a proper relational database.
 
 ## Tech Stack
 - Frontend: React.js, Tailwind CSS
-- Backend: FastAPI, SQLAlchemy
+- Backend: Fastify
 - Database: PostgreSQL
 - Tools: Docker
 
