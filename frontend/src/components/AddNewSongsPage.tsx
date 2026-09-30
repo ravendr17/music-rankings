@@ -23,66 +23,93 @@ export default function AddNewSongsPage() {
   const [totalHours, setTotalHours] = useState("");
 
   return (
-    <form className="bg-gray-200 flex items-center p-4 gap-6">
+    <form 
+      className="flex flex-col w-full"
+    >
+      <div className="bg-gray-200 flex items-center p-4 gap-6">
 
-      <div className="flex gap-2 items-center">
-        <label htmlFor="year">Year:</label>
-        <input
-          id="year"
-          type="number"
-          placeholder="Year"
-          className="bg-white p-1 w-35 rounded-sm"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          required
-          min={1900}
-          max={9999}
-        />
-      </div>
+        <div className="flex gap-2 items-center">
+          <label htmlFor="year">Year:</label>
+          <input
+            id="year"
+            type="number"
+            placeholder="Year"
+            className="bg-white p-1 w-35 rounded-sm"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            required
+            min={1900}
+            max={9999}
+          />
+        </div>
 
-      <div className="flex gap-2 items-center">
-        <label htmlFor="month">Month:</label>
-        <select 
-          id="month"
-          className="bg-white p-1.5 rounded-sm w-35"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          required
+        <div className="flex gap-2 items-center">
+          <label htmlFor="month">Month:</label>
+          <select 
+            id="month"
+            className="bg-white p-1.5 rounded-sm w-35"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+            required
+          >
+            <option value="" disabled>Select month</option>
+            {months.map((m) => (
+              <option 
+                value={m.id}
+                key={m.id}
+              >{m.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex gap-2 items-center">
+          <label htmlFor="total-hours">Total Hours:</label>
+          <input 
+            id="total-hours"
+            type="number"
+            placeholder="Total Hours"
+            className="bg-white p-1 w-35 rounded-sm"
+            value={totalHours}
+            onChange={(e) => setTotalHours(e.target.value)}
+            required
+            min={1}
+            max={999999}
+          />
+        </div>
+
+        <button 
+          className="cursor-pointer bg-green-600 text-white px-10 py-2
+          rounded-sm hover:bg-green-500 active:bg-green-400 ml-auto"
+          onClick={() => ("")}
+          type="submit"
         >
-          <option value="" disabled>Select month</option>
-          {months.map((m) => (
-            <option 
-              value={m.id}
-              key={m.id}
-            >{m.label}
-            </option>
-          ))}
-        </select>
+          Submit
+        </button>
+
       </div>
 
-      <div className="flex gap-2 items-center">
-        <label htmlFor="total-hours">Total Hours:</label>
-        <input 
-          id="total-hours"
-          type="number"
-          placeholder="Total Hours"
-          className="bg-white p-1 w-35 rounded-sm"
-          value={totalHours}
-          onChange={(e) => setTotalHours(e.target.value)}
-          required
-          min={1}
-          max={999999}
-        />
-      </div>
+      <div className="flex flex-col p-4">
+        <table className="w-full table-fixed border border-collapse">
+          <colgroup>
+            <col className="w-3/7" />
+            <col className="w-3/7" />
+            <col className="w-1/7" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th className="border">Song Title</th>
+              <th className="border">Song Artist</th>
+              <th className="border">Play Count</th>
+            </tr>
+          </thead>
 
-      <button 
-        className="cursor-pointer bg-green-600 text-white px-10 py-2
-        rounded-sm hover:bg-green-500 active:bg-green-400 ml-auto"
-        onClick={() => ("")}
-        type="submit"
-      >
-        Submit
-      </button>
+          <tbody>
+            
+          </tbody>
+
+        </table>
+      </div>
 
     </form>
   );
