@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex">
 
-      <aside className="w-55 shrink-0 bg-gray-100 p-4 
+      <aside className="w-50 shrink-0 bg-gray-100 p-4 
         flex flex-col items-center"
       >
         <h1 className="font-bold text-xl mb-10">Music Rankings</h1>
