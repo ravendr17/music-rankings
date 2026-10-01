@@ -22,6 +22,27 @@ export default function AddNewSongsPage() {
   const [month, setMonth] = useState("");
   const [totalHours, setTotalHours] = useState("");
 
+  const [songs, setSongs] = useState([
+    {id: 1, title: "", artist: "", playCount: ""},
+    {id: 2, title: "", artist: "", playCount: ""},
+    {id: 3, title: "", artist: "", playCount: ""},
+    {id: 4, title: "", artist: "", playCount: ""},
+    {id: 5, title: "", artist: "", playCount: ""},
+    {id: 6, title: "", artist: "", playCount: ""},
+    {id: 7, title: "", artist: "", playCount: ""},
+    {id: 8, title: "", artist: "", playCount: ""},
+    {id: 9, title: "", artist: "", playCount: ""},
+    {id: 10, title: "", artist: "", playCount: ""},
+  ]);
+
+  function handleSongs(id: number, field: string, value: string) {
+    setSongs(songs.map((s) => (
+      s.id === id ? 
+      {...s, [field]: value}
+      : s
+    )));
+  }
+
   return (
     <form 
       className="flex flex-col w-full"
@@ -92,20 +113,60 @@ export default function AddNewSongsPage() {
       <div className="flex flex-col p-4">
         <table className="w-full table-fixed border border-collapse">
           <colgroup>
-            <col className="w-3/7" />
-            <col className="w-3/7" />
-            <col className="w-1/7" />
+            <col className="w-1/13" />
+            <col className="w-5/13" />
+            <col className="w-5/13" />
+            <col className="w-2/13" />
           </colgroup>
           <thead>
             <tr>
-              <th className="border">Song Title</th>
-              <th className="border">Song Artist</th>
-              <th className="border">Play Count</th>
+              <th className="border p-1 bg-blue-100">Rank</th>
+              <th className="border p-1 bg-blue-100">Song Title</th>
+              <th className="border p-1 bg-blue-100">Song Artist</th>
+              <th className="border p-1 bg-blue-100">Play Count</th>
             </tr>
           </thead>
 
           <tbody>
-            
+            {songs.map((s) => (
+              <tr key={s.id}>
+
+                <td className="border text-center">
+                  {s.id}
+                </td>
+
+                <td className="border">
+                  <input 
+                    type="text"
+                    placeholder="Song Title"
+                    className="w-full px-2 py-1"
+                    value={s.title}
+                    onChange={(e) => handleSongs(s.id, "title", e.target.value)}
+                  />
+                </td>
+
+                <td className="border">
+                  <input 
+                    type="text"
+                    placeholder="Song Artist"
+                    className="w-full px-2 py-1"
+                    value={s.artist}
+                    onChange={(e) => handleSongs(s.id, "artist", e.target.value)}
+                  />
+                </td>
+
+                <td className="border">
+                  <input 
+                    type="number"
+                    placeholder="Play Count"
+                    className="w-full px-2 py-1"
+                    value={s.playCount}
+                    onChange={(e) => handleSongs(s.id, "playCount", e.target.value)}
+                  />
+                </td>
+
+              </tr>
+            ))}
           </tbody>
 
         </table>
