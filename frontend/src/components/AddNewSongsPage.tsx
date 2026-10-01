@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const months = [
   {id: 1, label: "January"},
@@ -43,9 +45,46 @@ export default function AddNewSongsPage() {
     )));
   }
 
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const submittedSongs = songs.filter(
+      (s) => s.title || s.artist || s.playCount,
+    );
+
+    const payload = {
+      year: Number(year),
+      month: Number(month),
+      totalHours: Number(totalHours),
+      songs: submittedSongs.map((s) => ({
+        ...s, playCount: Number(s.playCount)
+      }))
+    };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/reports`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+
+      if (!response.ok) {
+        throw new Error(`Server returned with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Monthly ranking submitted successfully:", data);
+    } catch (error) {
+      console.error("Failed to submit monthly ranking:", error);
+    }
+  }
+
   return (
     <form 
       className="flex flex-col w-full"
+      onSubmit={handleSubmit}
     >
       <div className="bg-gray-200 flex items-center p-4 gap-6">
 
@@ -102,7 +141,6 @@ export default function AddNewSongsPage() {
         <button 
           className="cursor-pointer bg-green-600 text-white px-10 py-2
           rounded-sm hover:bg-green-500 active:bg-green-400 ml-auto"
-          onClick={() => ("")}
           type="submit"
         >
           Submit
@@ -118,6 +156,7 @@ export default function AddNewSongsPage() {
             <col className="w-5/13" />
             <col className="w-2/13" />
           </colgroup>
+          
           <thead>
             <tr>
               <th className="border p-1 bg-blue-100">Rank</th>
@@ -128,45 +167,55 @@ export default function AddNewSongsPage() {
           </thead>
 
           <tbody>
-            {songs.map((s) => (
-              <tr key={s.id}>
+            {songs.map((s) => {
+              const hasValues = Boolean(s.title || s.artist || s.playCount)
+              
+              return (
+                <tr key={s.id}>
 
-                <td className="border text-center">
-                  {s.id}
-                </td>
+                  <td className="border text-center">
+                    {s.id}
+                  </td>
 
-                <td className="border">
-                  <input 
-                    type="text"
-                    placeholder="Song Title"
-                    className="w-full px-2 py-1"
-                    value={s.title}
-                    onChange={(e) => handleSongs(s.id, "title", e.target.value)}
-                  />
-                </td>
+                  <td className="border">
+                    <input 
+                      type="text"
+                      placeholder="Song Title"
+                      className="w-full px-2 py-1"
+                      value={s.title}
+                      onChange={(e) => handleSongs(s.id, "title", e.target.value)}
+                      required={hasValues}
+                      maxLength={100}
+                    />
+                  </td>
 
-                <td className="border">
-                  <input 
-                    type="text"
-                    placeholder="Song Artist"
-                    className="w-full px-2 py-1"
-                    value={s.artist}
-                    onChange={(e) => handleSongs(s.id, "artist", e.target.value)}
-                  />
-                </td>
+                  <td className="border">
+                    <input 
+                      type="text"
+                      placeholder="Song Artist"
+                      className="w-full px-2 py-1"
+                      value={s.artist}
+                      onChange={(e) => handleSongs(s.id, "artist", e.target.value)}
+                      required={hasValues}
+                      maxLength={100}
+                    />
+                  </td>
 
-                <td className="border">
-                  <input 
-                    type="number"
-                    placeholder="Play Count"
-                    className="w-full px-2 py-1"
-                    value={s.playCount}
-                    onChange={(e) => handleSongs(s.id, "playCount", e.target.value)}
-                  />
-                </td>
-
-              </tr>
-            ))}
+                  <td className="border">
+                    <input 
+                      type="number"
+                      placeholder="Play Count"
+                      className="w-full px-2 py-1"
+                      value={s.playCount}
+                      onChange={(e) => handleSongs(s.id, "playCount", e.target.value)}
+                      required={hasValues}
+                      min={1}
+                      max={999999}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
 
         </table>
