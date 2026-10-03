@@ -6,8 +6,8 @@ Built to replace my older Java Swing desktop app, and migrated into a
 decoupled fullstack web app with a proper relational database.
 
 ## Tech Stack
-- Frontend: React.js
-- Backend: Express.js
+- Frontend: React.js, Tailwind CSS
+- Backend: Express.js, Drizzle ORM
 - Database: PostgreSQL
 
 ## Features
