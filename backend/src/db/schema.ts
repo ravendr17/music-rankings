@@ -1,18 +1,34 @@
-import { integer, pgTable, primaryKey, unique, varchar } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { check, integer, pgTable, primaryKey, text, unique } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  username: varchar({length: 30}).notNull().unique(),
-  passwordHash: varchar("password_hash", {length: 255}).notNull()
-});
+  username: text().notNull().unique(),
+  passwordHash: text("password_hash").notNull()
+  
+}, (t) => [
+  check(
+    "username_length", sql`LENGTH(BTRIM(${t.username})) BETWEEN 8 AND 30`
+  ),
+  check(
+    "password_hash_length", sql`LENGTH(BTRIM(${t.passwordHash})) BETWEEN 1 AND 255`
+  )
+]);
 
 export const songs = pgTable("songs", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({length: 100}).notNull(),
-  artist: varchar({length: 100}).notNull()
+  title: text().notNull(),
+  artist: text().notNull()
 
 }, (t) => [
-  unique().on(t.title, t.artist)
+  unique().on(t.title, t.artist),
+
+  check(
+    "title_length", sql`LENGTH(BTRIM(${t.title})) BETWEEN 1 AND 100`
+  ),
+  check(
+    "artist_length", sql`LENGTH(BTRIM(${t.artist})) BETWEEN 1 AND 100`
+  )
 ]);
 
 export const reports = pgTable("reports", {
@@ -24,7 +40,17 @@ export const reports = pgTable("reports", {
   totalHours: integer("total_hours").notNull()
   
 }, (t) => [
-  unique().on(t.userId, t.year, t.month)
+  unique().on(t.userId, t.year, t.month),
+
+  check(
+    "year_range", sql`${t.year} BETWEEN 1900 AND 9999`
+  ),
+  check(
+    "month_range", sql`${t.month} BETWEEN 1 AND 12`
+  ),
+  check(
+    "total_hours_range", sql`${t.totalHours} BETWEEN 1 AND 999999`
+  )
 ]);
 
 export const reportSongs = pgTable("report_songs", {
@@ -33,5 +59,9 @@ export const reportSongs = pgTable("report_songs", {
   playCount: integer("play_count").notNull()
 
 }, (t) => [
-  primaryKey({columns: [t.reportId, t.songId]})
+  primaryKey({columns: [t.reportId, t.songId]}),
+
+  check(
+    "play_count_range", sql`${t.playCount} BETWEEN 1 AND 999999`
+  )
 ]);
