@@ -1,5 +1,11 @@
 import { integer, pgTable, primaryKey, unique, varchar } from "drizzle-orm/pg-core";
 
+export const users = pgTable("users", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  username: varchar({length: 30}).notNull().unique(),
+  passwordHash: varchar("password_hash", {length: 255}).notNull()
+});
+
 export const songs = pgTable("songs", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar({length: 100}).notNull(),
@@ -11,12 +17,14 @@ export const songs = pgTable("songs", {
 
 export const reports = pgTable("reports", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id").notNull().references(() => users.id),
+
   year: integer().notNull(),
   month: integer().notNull(),
   totalHours: integer("total_hours").notNull()
   
 }, (t) => [
-  unique().on(t.year, t.month)
+  unique().on(t.userId, t.year, t.month)
 ]);
 
 export const reportSongs = pgTable("report_songs", {
