@@ -5,7 +5,7 @@ export const users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   username: text().notNull().unique(),
   passwordHash: text("password_hash").notNull()
-  
+
 }, (t) => [
   check(
     "username_length", sql`LENGTH(BTRIM(${t.username})) BETWEEN 8 AND 30`
@@ -54,7 +54,10 @@ export const reports = pgTable("reports", {
 ]);
 
 export const reportSongs = pgTable("report_songs", {
-  reportId: integer("report_id").notNull().references(() => reports.id),
+  reportId: integer("report_id")
+    .notNull()
+    .references(() => reports.id, {onDelete: "cascade"}),
+
   songId: integer("song_id").notNull().references(() => songs.id),
   playCount: integer("play_count").notNull()
 
