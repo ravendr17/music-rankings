@@ -7,7 +7,7 @@ decoupled fullstack web app with a proper relational database.
 
 ## Tech Stack
 - Frontend: React.js, Tailwind CSS
-- Backend: Express.js, Drizzle ORM
+- Backend: Express.js
 - Database: PostgreSQL
 
 ## Features
