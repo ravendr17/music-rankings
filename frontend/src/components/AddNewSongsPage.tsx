@@ -57,7 +57,9 @@ export default function AddNewSongsPage() {
       month: Number(month),
       totalHours: Number(totalHours),
       songs: submittedSongs.map((s) => ({
-        ...s, playCount: Number(s.playCount)
+        title: s.title, 
+        artist: s.artist, 
+        playCount: Number(s.playCount)
       }))
     };
 
