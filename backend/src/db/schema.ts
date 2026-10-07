@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check, integer, pgTable, primaryKey, text, unique } from "drizzle-orm/pg-core";
+import { check, integer, pgTable, text, unique } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -54,15 +54,20 @@ export const reports = pgTable("reports", {
 ]);
 
 export const reportSongs = pgTable("report_songs", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+
   reportId: integer("report_id")
     .notNull()
     .references(() => reports.id, {onDelete: "cascade"}),
 
-  songId: integer("song_id").notNull().references(() => songs.id),
+  songId: integer("song_id")
+    .notNull()
+    .references(() => songs.id),
+
   playCount: integer("play_count").notNull()
 
 }, (t) => [
-  primaryKey({columns: [t.reportId, t.songId]}),
+  unique().on(t.reportId, t.songId),
 
   check(
     "play_count_range", sql`${t.playCount} BETWEEN 1 AND 999999`
