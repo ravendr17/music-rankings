@@ -1,6 +1,5 @@
 import { useState, type SubmitEvent } from "react";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { env } from "../env";
 
 const months = [
   {id: 1, label: "January"},
@@ -64,7 +63,7 @@ export default function AddNewSongsPage() {
     };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/reports`, {
+      const response = await fetch(`${env.API_BASE_URL}/reports`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
