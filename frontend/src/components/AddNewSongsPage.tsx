@@ -187,6 +187,7 @@ export default function AddNewSongsPage() {
                       onChange={(e) => handleSongs(s.id, "title", e.target.value)}
                       required={hasValues}
                       maxLength={100}
+                      pattern=".*\S.*"
                     />
                   </td>
 
@@ -199,6 +200,7 @@ export default function AddNewSongsPage() {
                       onChange={(e) => handleSongs(s.id, "artist", e.target.value)}
                       required={hasValues}
                       maxLength={100}
+                      pattern=".*\S.*"
                     />
                   </td>
 
