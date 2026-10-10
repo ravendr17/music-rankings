@@ -3,12 +3,13 @@
 A personal fullstack web application for tracking and ranking the songs I 
 listen to each month.
 Built to replace my older Java Swing desktop app, and migrated into a 
-decoupled fullstack web app with a proper relational database.
+fullstack web app with a proper relational database.
 
 ## Tech Stack
-- Frontend: React.js, Tailwind CSS
-- Backend: Express.js
+- Frontend: React, Vite, Tailwind CSS, TypeScript
+- Backend: Express, TypeScript
 - Database: PostgreSQL
+- Development tooling: Docker Compose, Dbmate
 
 ## Features
 - Input monthly listening reports (song titles, artists, play counts)
@@ -24,7 +25,7 @@ artists, play counts, total listening hours, and the month and year.
 In May 2025, I built a Java Swing desktop app to manually encode and track 
 these records using JSON files through Gson.
 
-A year later in 2026, I rebuilt the entire project as a modern fullstack 
+A year later in 2026, I rebuilt the entire project as a fullstack 
 web app, properly separating the frontend and backend, and 
-transitioning from flat JSON files into a normalized relational database 
+transitioning from flat JSON files into a relational database 
 using PostgreSQL.
