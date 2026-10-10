@@ -100,7 +100,7 @@ export default function AddNewSongsPage() {
             onChange={(e) => setYear(e.target.value)}
             required
             min={1900}
-            max={9999}
+            max={2999}
           />
         </div>
 
@@ -135,7 +135,7 @@ export default function AddNewSongsPage() {
             onChange={(e) => setTotalHours(e.target.value)}
             required
             min={1}
-            max={999999}
+            max={999}
           />
         </div>
 
@@ -211,7 +211,7 @@ export default function AddNewSongsPage() {
                       onChange={(e) => handleSongs(s.id, "playCount", e.target.value)}
                       required={hasValues}
                       min={1}
-                      max={999999}
+                      max={99999}
                     />
                   </td>
                 </tr>
