@@ -7,7 +7,7 @@ fullstack web app with a proper relational database.
 
 ## Tech Stack
 - Frontend: React, Tailwind CSS
-- Backend: ASP.NET Core
+- Backend: ASP.NET Core, Entity Framework Core
 - Database: PostgreSQL
 - Development tooling: Docker Compose
 
