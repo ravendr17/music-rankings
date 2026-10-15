@@ -6,10 +6,10 @@ Built to replace my older Java Swing desktop app, and migrated into a
 fullstack web app with a proper relational database.
 
 ## Tech Stack
-- Frontend: React, Vite, Tailwind CSS, TypeScript
-- Backend: Express, TypeScript
+- Frontend: React, Tailwind CSS
+- Backend: ASP.NET Core
 - Database: PostgreSQL
-- Development tooling: Docker Compose, Dbmate
+- Development tooling: Docker Compose
 
 ## Features
 - Input monthly listening reports (song titles, artists, play counts)

@@ -1,10 +1,15 @@
 # Dependencies
 **/node_modules/
 
-# Build output
+# JavaScript/TypeScript build output
 **/dist/
 **/dist-ssr/
 **/coverage/
+
+# .NET build output
+**/bin/
+**/obj/
+**/TestResults/
 
 # Environment files and local overrides
 **/.env
@@ -21,15 +26,32 @@ pnpm-debug.log*
 # Tool caches
 **/.vite/
 
-# Editor files
+# Visual Studio
+**/.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# JetBrains Rider / ReSharper
+**/.idea/
+*.DotSettings.user
+_ReSharper*/
+*.DotCover
+
+# VS Code
 **/.vscode/*
 !**/.vscode/extensions.json
-**/.idea/
-*.suo
+
+# Other editor files
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
+
+# Test and coverage results
+*.coverage
+*.coveragexml
 
 # OS files
 .DS_Store
