@@ -6,7 +6,7 @@ Built to replace my older Java Swing desktop app, and migrated into a
 fullstack web app with a proper relational database.
 
 ## Tech Stack
-- Frontend: React, Vite, Tailwind CSS, TypeScript
+- Frontend: React, Tailwind CSS, TypeScript
 - Backend: Express, TypeScript
 - Database: PostgreSQL
 - Development tooling: Docker Compose, Dbmate
