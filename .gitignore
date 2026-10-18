@@ -34,3 +34,14 @@ pnpm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
