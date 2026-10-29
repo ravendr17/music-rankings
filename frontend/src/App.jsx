@@ -5,7 +5,7 @@ import AnnualRankingsPage from "./components/AnnualRankingsPage";
 import MonthlyRankingsPage from "./components/MonthlyRankingsPage";
 
 export default function App() {
-  const [page, setPage] = useState("all-time-rankings-page");
+  const [page, setPage] = useState("add-new-songs-page");
 
   const sidebarBtn = "bg-gray-100 py-4 cursor-pointer " +
     "hover:bg-gray-200 active:bg-gray-300";
@@ -44,7 +44,7 @@ export default function App() {
         </button>
       </div>
 
-      <div className="flex flex-1 bg-white">
+      <div className="flex-1 bg-white">
         {page === "add-new-songs-page" && <AddNewSongsPage />}
         {page === "all-time-rankings-page" && <AllTimeRankingsPage />}
         {page === "annual-rankings-page" && <AnnualRankingsPage />}
