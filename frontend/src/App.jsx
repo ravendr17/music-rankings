@@ -4,7 +4,7 @@ import AllTimeRankingsPage from "./components/AllTimeRankingsPage";
 import AnnualRankingsPage from "./components/AnnualRankingsPage";
 import MonthlyRankingsPage from "./components/MonthlyRankingsPage";
 
-export default function App() {
+export default function App({config}) {
   const [page, setPage] = useState("add-new-songs-page");
 
   const sidebarBtn = "bg-gray-100 py-4 cursor-pointer " +
@@ -45,7 +45,7 @@ export default function App() {
       </div>
 
       <div className="flex-1 bg-white">
-        {page === "add-new-songs-page" && <AddNewSongsPage />}
+        {page === "add-new-songs-page" && <AddNewSongsPage  config={config} />}
         {page === "all-time-rankings-page" && <AllTimeRankingsPage />}
         {page === "annual-rankings-page" && <AnnualRankingsPage />}
         {page === "monthly-rankings-page" && <MonthlyRankingsPage />}
