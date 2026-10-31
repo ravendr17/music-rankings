@@ -63,7 +63,7 @@ export default function AddNewSongsPage() {
           placeholder="Year"
           className="bg-white p-2 w-40 rounded-sm"
           required
-          min={1}
+          min={2000}
           max={9999}
           value={year}
           onChange={(e) => setYear(e.target.value)}
@@ -103,7 +103,7 @@ export default function AddNewSongsPage() {
         </button>
       </div>
 
-      <table className="border border-collapse">
+      <table className="border border-collapse m-4">
         <colgroup>
           <col className="w-20" />
           <col />
