@@ -15,7 +15,8 @@ const months = [
   {label: "December", value: 12}
 ];
 
-export default function AddNewSongsPage() {
+export default function AddNewSongsPage({config}) {
+  const apiBaseUrl = config.apiBaseUrl;
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [totalHours, setTotalHours] = useState("");
@@ -41,7 +42,7 @@ export default function AddNewSongsPage() {
     setSongs(updatedSongs);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // stop the page from reloading
     e.preventDefault();
 
@@ -74,8 +75,27 @@ export default function AddNewSongsPage() {
         playCount: Number(s.playCount),
       })),
     };
+    
+    const url = `${apiBaseUrl}/reports`;
 
-    console.log(payload); 
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Report created successfully:", result);
+    } catch (error) {
+      console.error("Error creating report:", error.message);
+    }
   }
 
   const rowInputCell = "w-full focus:outline-none p-2";
