@@ -1,6 +1,7 @@
 package io.github.ravendr17.musicrankings.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import io.github.ravendr17.musicrankings.model.Report;
@@ -13,11 +14,12 @@ public class ReportDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public void save(Report report) {
+	public Report save(Report report) {
 		String sql = 
 			"INSERT INTO reports " +
 			"(year, month, total_hours) " +
-			"VALUES (?, ?, ?)";
+			"VALUES (?, ?, ?) " + 
+			"RETURNING *";
 		
 		Object[] values = {
 			report.getYear(),
@@ -25,19 +27,17 @@ public class ReportDao {
 			report.getTotalHours()
 		};
 		
-		jdbcTemplate.update(sql, values);
-	}
-	
-	public long findByYearAndMonth(int year, int month) {
-		String sql =
-			"SELECT id FROM reports " +
-			"WHERE year = ? AND month = ?";
-		
-		Object[] values = {
-			year,
-			month
+		RowMapper<Report> rowMapper = (rs, rowNum) -> {
+			Report r = new Report();
+			r.setId(rs.getLong("id"));
+			r.setYear(rs.getInt("year"));
+			r.setMonth(rs.getInt("month"));
+			r.setTotalHours(rs.getInt("total_hours"));
+			r.setCreatedAt(rs.getString("created_at"));
+			return r;
 		};
 		
-		return jdbcTemplate.queryForObject(sql, Long.class, values);
+		return jdbcTemplate.queryForObject(sql, rowMapper, values);
 	}
+
 }

@@ -21,25 +21,24 @@ public class ReportService {
 	}
 	
 	@Transactional
-	public void create(CreateReportRequestDto req) {
+	public Report create(CreateReportRequestDto req) {
 		Report report = new Report();
 		report.setYear(req.getYear());
 		report.setMonth(req.getMonth());
 		report.setTotalHours(req.getTotalHours());
 		
-		reportDao.save(report);
-		
-		long reportId = 
-			reportDao.findByYearAndMonth(req.getYear(), req.getMonth());
+		Report createdReport = reportDao.save(report);
 		
 		for (CreateSongRequestDto songReq: req.getSongs()) {
 			Song song = new Song();
-			song.setReportId(reportId);
+			song.setReportId(createdReport.getId());
 			song.setTitle(songReq.getTitle());
 			song.setArtist(songReq.getArtist());
 			song.setPlayCount(songReq.getPlayCount());
 			
 			songDao.save(song);
 		}
+		
+		return createdReport;
 	}
 }
