@@ -2,11 +2,11 @@ package io.github.ravendr17.musicrankings.dto;
 
 import java.util.List;
 
-public class CreateReportRequestDto {
+public class CreateReportRequest {
 	private int year;
 	private int month;
 	private int totalHours;
-	private List<CreateSongRequestDto> songs;
+	private List<CreateSongRequest> songs;
 	
 	public int getYear() {
 		return this.year;
@@ -32,11 +32,11 @@ public class CreateReportRequestDto {
 		this.totalHours = totalHours;
 	}
 	
-	public List<CreateSongRequestDto> getSongs() {
+	public List<CreateSongRequest> getSongs() {
 		return this.songs;
 	}
 	
-	public void setSongs(List<CreateSongRequestDto> songs) {
+	public void setSongs(List<CreateSongRequest> songs) {
 		this.songs = songs;
 	}
 }

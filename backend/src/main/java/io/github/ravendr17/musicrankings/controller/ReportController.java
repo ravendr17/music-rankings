@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.ravendr17.musicrankings.dto.CreateReportRequestDto;
+import io.github.ravendr17.musicrankings.dto.CreateReportRequest;
 import io.github.ravendr17.musicrankings.dto.MonthlyReportResponse;
 import io.github.ravendr17.musicrankings.model.Report;
 import io.github.ravendr17.musicrankings.service.ReportService;
@@ -28,7 +28,7 @@ public class ReportController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Report create(@RequestBody CreateReportRequestDto request) {
+	public Report create(@RequestBody CreateReportRequest request) {
 		return reportService.create(request);
 	}
 	

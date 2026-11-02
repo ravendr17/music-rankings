@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.ravendr17.musicrankings.dao.ReportDao;
 import io.github.ravendr17.musicrankings.dao.SongDao;
-import io.github.ravendr17.musicrankings.dto.CreateReportRequestDto;
-import io.github.ravendr17.musicrankings.dto.CreateSongRequestDto;
+import io.github.ravendr17.musicrankings.dto.CreateReportRequest;
+import io.github.ravendr17.musicrankings.dto.CreateSongRequest;
 import io.github.ravendr17.musicrankings.dto.MonthlyReportResponse;
 import io.github.ravendr17.musicrankings.dto.SongResponse;
 import io.github.ravendr17.musicrankings.exception.ReportNotFoundException;
@@ -28,7 +28,7 @@ public class ReportService {
 	}
 	
 	@Transactional
-	public Report create(CreateReportRequestDto req) {
+	public Report create(CreateReportRequest req) {
 		Report report = new Report();
 		report.setYear(req.getYear());
 		report.setMonth(req.getMonth());
@@ -36,7 +36,7 @@ public class ReportService {
 		
 		Report createdReport = reportDao.save(report);
 		
-		for (CreateSongRequestDto songReq: req.getSongs()) {
+		for (CreateSongRequest songReq: req.getSongs()) {
 			Song song = new Song();
 			song.setReportId(createdReport.getId());
 			song.setTitle(songReq.getTitle());

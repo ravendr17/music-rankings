@@ -1,6 +1,6 @@
 package io.github.ravendr17.musicrankings.dto;
 
-public class CreateSongRequestDto {
+public class CreateSongRequest {
 	private String title;
 	private String artist;
 	private int playCount;
