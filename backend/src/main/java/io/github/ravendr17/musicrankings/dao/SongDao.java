@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import io.github.ravendr17.musicrankings.dto.TopSongResponse;
 import io.github.ravendr17.musicrankings.model.Song;
 
 @Repository
@@ -48,6 +49,30 @@ public class SongDao {
 		};
 		
 		return jdbcTemplate.query(sql, rowMapper, reportId);
+	}
+	
+	public List<TopSongResponse> findTopSongsByYear(int year, int limit) {
+		String sql =
+			"SELECT title, artist, SUM(play_count) AS total_play_count " +
+			"FROM songs " +
+			"JOIN reports " +
+			"ON reports.id = songs.report_id " +
+			"WHERE reports.year = ? " + 
+			"GROUP BY title, artist " +
+			"ORDER BY total_play_count DESC " +
+			"LIMIT ?";
+		
+		Object[] values = {year, limit};
+		
+		RowMapper<TopSongResponse> rowMapper = (rs, rowNum) -> {
+			TopSongResponse tsp = new TopSongResponse();
+			tsp.setTitle(rs.getString("title"));
+			tsp.setArtist(rs.getString("artist"));
+			tsp.setTotalPlayCount(rs.getInt("total_play_count"));
+			return tsp;
+		};
+		
+		return jdbcTemplate.query(sql, rowMapper, values);
 	}
 	
 }
