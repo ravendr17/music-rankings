@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import io.github.ravendr17.musicrankings.dto.TopSongDto;
 import io.github.ravendr17.musicrankings.model.Song;
 
 @Repository
@@ -33,47 +32,22 @@ public class SongDao {
 		jdbcTemplate.update(sql, values);
 	}
 	
-	public List<Song> getMonthly(int year, int month) {
-		String sql =
-			"SELECT title, artist, play_count " +
+	public List<Song> findByReportId(long reportId) {
+		String sql = 
+			"SELECT id, title, artist, play_count " +
 			"FROM songs " +
-			"JOIN reports ON reports.id = songs.report_id " +
-			"WHERE reports.year = ? AND reports.month = ? " +
-			"ORDER BY play_count DESC";
-		
-		Object[] values = {
-			year,
-			month
-		};
+			"WHERE report_id = ?";
 		
 		RowMapper<Song> rowMapper = (rs, rowNum) -> {
 			Song song = new Song();
+			song.setId(rs.getLong("id"));
 			song.setTitle(rs.getString("title"));
 			song.setArtist(rs.getString("artist"));
 			song.setPlayCount(rs.getInt("play_count"));
 			return song;
 		};
 		
-		return jdbcTemplate.query(sql, rowMapper, values);
+		return jdbcTemplate.query(sql, rowMapper, reportId);
 	}
 	
-	public List<TopSongDto> getAllTimeTop40() {
-		String sql = 
-			"SELECT title, artist, SUM(play_count) AS total_play_count " +
-			"FROM songs " +
-			"JOIN reports ON reports.id = songs.report_id " +
-			"GROUP BY title, artist " +
-			"ORDER BY total_play_count DESC " +
-			"LIMIT 40";
-		
-		RowMapper<TopSongDto> rowMapper = (rs, rowNum) -> {
-			TopSongDto song = new TopSongDto();
-			song.setTitle(rs.getString("title"));
-			song.setArtist(rs.getString("artist"));
-			song.setTotalPlayCount(rs.getInt("total_play_count"));
-			return song;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper);
-	}
 }

@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.ravendr17.musicrankings.dto.CreateReportRequestDto;
+import io.github.ravendr17.musicrankings.dto.MonthlyReportResponse;
 import io.github.ravendr17.musicrankings.model.Report;
 import io.github.ravendr17.musicrankings.service.ReportService;
 
@@ -33,5 +35,13 @@ public class ReportController {
 	@GetMapping("/{reportId}")
 	public Report findById(@PathVariable long reportId) {
 		return reportService.findById(reportId);
+	}
+	
+	@GetMapping()
+	public MonthlyReportResponse findByYearAndMonth(
+		@RequestParam int year,
+		@RequestParam int month
+	) {
+		return reportService.findByYearAndMonth(year, month);
 	}
 }

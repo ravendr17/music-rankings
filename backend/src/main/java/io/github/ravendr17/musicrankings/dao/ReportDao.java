@@ -61,5 +61,30 @@ public class ReportDao {
 				.stream()
 				.findFirst();
 	}
+	
+	public Optional<Report> findByYearAndMonth(
+			int year,
+			int month
+	) {
+		String sql = 
+			"SELECT * FROM reports " +
+			"WHERE reports.year = ? AND reports.month = ?";
+		
+		Object[] values = {year, month};
+		
+		RowMapper<Report> rowMapper = (rs, rowNum) -> {
+			Report report = new Report();
+			report.setId(rs.getLong("id"));
+			report.setCreatedAt(rs.getString("created_at"));
+			report.setYear(rs.getInt("year"));
+			report.setMonth(rs.getInt("month"));
+			report.setTotalHours(rs.getInt("total_hours"));
+			return report;
+		};
+		
+		return jdbcTemplate.query(sql, rowMapper, values)
+				.stream()
+				.findFirst();
+	}
 
 }
