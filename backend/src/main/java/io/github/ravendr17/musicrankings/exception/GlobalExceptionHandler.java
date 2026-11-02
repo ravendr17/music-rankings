@@ -21,4 +21,15 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(body);
     }
+	
+	@ExceptionHandler(SongsNotFoundException.class)
+	public ResponseEntity<Object> handleSongsNotFound(
+			SongsNotFoundException ex) {
+		Map<String, String> body = new HashMap<String, String>();
+		body.put("message", ex.getMessage());
+		
+		return ResponseEntity
+				.status(HttpStatus.NOT_FOUND)
+				.body(body);
+	}
 }
