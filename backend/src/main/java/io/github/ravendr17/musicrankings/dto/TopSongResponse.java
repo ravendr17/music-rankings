@@ -1,6 +1,6 @@
 package io.github.ravendr17.musicrankings.dto;
 
-public class TopSongDto {
+public class TopSongResponse {
 	private String title;
 	private String artist;
 	private int totalPlayCount;
