@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import io.github.ravendr17.musicrankings.dao.SongDao;
+import io.github.ravendr17.musicrankings.dto.SongLookupResponse;
 import io.github.ravendr17.musicrankings.dto.TopSongResponse;
 import io.github.ravendr17.musicrankings.exception.SongsNotFoundException;
 
@@ -34,5 +35,9 @@ public class SongService {
 		}
 		
 		return songs;
+	}
+	
+	public List<SongLookupResponse> findAllForLookup() {
+		return songDao.findAllForLookup();
 	}
 }

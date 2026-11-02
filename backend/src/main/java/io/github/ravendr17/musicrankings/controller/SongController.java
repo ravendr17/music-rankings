@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.ravendr17.musicrankings.dto.SongLookupResponse;
 import io.github.ravendr17.musicrankings.dto.TopSongResponse;
 import io.github.ravendr17.musicrankings.service.SongService;
 
@@ -34,5 +35,10 @@ public class SongController {
 		@RequestParam int limit
 	) {
 		return songService.findAllTimeTopSongs(limit);
+	}
+	
+	@GetMapping("/lookup")
+	public List<SongLookupResponse> findAllForLookup() {
+		return songService.findAllForLookup();
 	}
 }

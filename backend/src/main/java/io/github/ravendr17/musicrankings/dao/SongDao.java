@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import io.github.ravendr17.musicrankings.dto.SongLookupResponse;
 import io.github.ravendr17.musicrankings.dto.TopSongResponse;
 import io.github.ravendr17.musicrankings.model.Song;
 
@@ -92,6 +93,21 @@ public class SongDao {
 		};
 		
 		return jdbcTemplate.query(sql, rowMapper, limit);
+	}
+	
+	public List<SongLookupResponse> findAllForLookup() {
+		String sql =
+			"SELECT DISTINCT title, artist " +
+			"FROM songs ";
+		
+		RowMapper<SongLookupResponse> rowMapper = (rs, rowNum) -> {
+			SongLookupResponse slr = new SongLookupResponse();
+			slr.setTitle(rs.getString("title"));
+			slr.setArtist(rs.getString("artist"));
+			return slr;
+		};
+		
+		return jdbcTemplate.query(sql, rowMapper);
 	}
 	
 }
