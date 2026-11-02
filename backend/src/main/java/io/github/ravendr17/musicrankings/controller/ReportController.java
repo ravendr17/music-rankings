@@ -2,6 +2,8 @@ package io.github.ravendr17.musicrankings.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +28,10 @@ public class ReportController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Report create(@RequestBody CreateReportRequestDto request) {
 		return reportService.create(request);
+	}
+	
+	@GetMapping("/{reportId}")
+	public Report findById(@PathVariable long reportId) {
+		return reportService.findById(reportId);
 	}
 }

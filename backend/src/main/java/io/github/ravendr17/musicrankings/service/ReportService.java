@@ -1,5 +1,7 @@
 package io.github.ravendr17.musicrankings.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,6 +9,7 @@ import io.github.ravendr17.musicrankings.dao.ReportDao;
 import io.github.ravendr17.musicrankings.dao.SongDao;
 import io.github.ravendr17.musicrankings.dto.CreateReportRequestDto;
 import io.github.ravendr17.musicrankings.dto.CreateSongRequestDto;
+import io.github.ravendr17.musicrankings.exception.ReportNotFoundException;
 import io.github.ravendr17.musicrankings.model.Report;
 import io.github.ravendr17.musicrankings.model.Song;
 
@@ -40,5 +43,15 @@ public class ReportService {
 		}
 		
 		return createdReport;
+	}
+	
+	public Report findById(long reportId) {
+		Optional<Report> report = reportDao.findById(reportId);
+		
+		if (report.isEmpty()) {
+			throw new ReportNotFoundException(reportId);
+		}
+		
+		return report.get();
 	}
 }

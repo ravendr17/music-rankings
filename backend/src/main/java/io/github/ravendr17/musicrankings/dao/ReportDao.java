@@ -1,5 +1,7 @@
 package io.github.ravendr17.musicrankings.dao;
 
+import java.util.Optional;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -38,6 +40,26 @@ public class ReportDao {
 		};
 		
 		return jdbcTemplate.queryForObject(sql, rowMapper, values);
+	}
+	
+	public Optional<Report> findById(long reportId) {
+		String sql = 
+			"SELECT * FROM reports " +
+			"WHERE id = ?";
+		
+		RowMapper<Report> rowMapper = (rs, rowNum) -> {
+			Report r = new Report();
+			r.setId(rs.getLong("id"));
+			r.setYear(rs.getInt("year"));
+			r.setMonth(rs.getInt("month"));
+			r.setTotalHours(rs.getInt("total_hours"));
+			r.setCreatedAt(rs.getString("created_at"));
+			return r;
+		};
+		
+		return jdbcTemplate.query(sql, rowMapper, reportId)
+				.stream()
+				.findFirst();
 	}
 
 }
