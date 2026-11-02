@@ -81,7 +81,7 @@ public class ReportService {
 		mrr.setCreatedAt(report.getCreatedAt());
 		
 		// retrieve all the songs of the report
-		List<Song> songs = songDao.findByReportId(report.getId());
+		List<Song> songs = songDao.findAllByReportId(report.getId());
 		
 		List<SongResponse> songResponses = new ArrayList<SongResponse>();
 		

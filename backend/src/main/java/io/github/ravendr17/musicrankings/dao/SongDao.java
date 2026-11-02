@@ -33,7 +33,7 @@ public class SongDao {
 		jdbcTemplate.update(sql, values);
 	}
 	
-	public List<Song> findByReportId(long reportId) {
+	public List<Song> findAllByReportId(long reportId) {
 		String sql = 
 			"SELECT id, title, artist, play_count " +
 			"FROM songs " +
