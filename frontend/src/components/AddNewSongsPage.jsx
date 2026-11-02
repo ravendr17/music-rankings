@@ -76,7 +76,7 @@ export default function AddNewSongsPage({config}) {
       })),
     };
     
-    const url = `${apiBaseUrl}/reports`;
+    const url = `${apiBaseUrl}/api/reports`;
 
     try {
       const response = await fetch(url, {
