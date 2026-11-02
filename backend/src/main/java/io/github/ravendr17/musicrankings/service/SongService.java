@@ -25,4 +25,14 @@ public class SongService {
 		
 		return songs;
 	}
+	
+	public List<TopSongResponse> findAllTimeTopSongs(int limit) {
+		List<TopSongResponse> songs = songDao.findAllTimeTopSongs(limit);
+		
+		if (songs.isEmpty()) {
+			throw new SongsNotFoundException();
+		}
+		
+		return songs;
+	}
 }

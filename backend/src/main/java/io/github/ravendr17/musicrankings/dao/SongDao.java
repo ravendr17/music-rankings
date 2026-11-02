@@ -75,4 +75,23 @@ public class SongDao {
 		return jdbcTemplate.query(sql, rowMapper, values);
 	}
 	
+	public List<TopSongResponse> findAllTimeTopSongs(int limit) {
+		String sql =
+			"SELECT title, artist, SUM(play_count) AS total_play_count " +
+			"FROM songs " +
+			"GROUP BY title, artist " +
+			"ORDER BY total_play_count DESC " +
+			"LIMIT ?";
+		
+		RowMapper<TopSongResponse> rowMapper = (rs, rowNum) -> {
+			TopSongResponse tsp = new TopSongResponse();
+			tsp.setTitle(rs.getString("title"));
+			tsp.setArtist(rs.getString("artist"));
+			tsp.setTotalPlayCount(rs.getInt("total_play_count"));
+			return tsp;
+		};
+		
+		return jdbcTemplate.query(sql, rowMapper, limit);
+	}
+	
 }

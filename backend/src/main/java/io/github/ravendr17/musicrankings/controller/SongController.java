@@ -28,4 +28,11 @@ public class SongController {
 	) {
 		return songService.findTopSongsByYear(year, limit);
 	}
+	
+	@GetMapping("/all-time")
+	public List<TopSongResponse> findAllTimeTopSongs(
+		@RequestParam int limit
+	) {
+		return songService.findAllTimeTopSongs(limit);
+	}
 }
