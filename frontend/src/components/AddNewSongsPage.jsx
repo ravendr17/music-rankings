@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const months = [
   {label: "January", value: 1},
@@ -97,6 +97,28 @@ export default function AddNewSongsPage({config}) {
       console.error("Error creating report:", error.message);
     }
   }
+
+  // songs lookup for auto-complete
+  const [songsLookup, setSongsLookup] = useState([]);
+
+  useEffect(() => {
+    async function fetchSongsLookup() {
+      try {
+        const response = await fetch(`${apiBaseUrl}/api/songs/lookup`);
+
+        if (!response.ok) {
+          throw new Error(`Error status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setSongsLookup(data);
+      } catch (error) {
+        console.error("Error fetching songs data for auto-complete feature:", error.message);
+      }
+    };
+
+    fetchSongsLookup();
+  }, []);
 
   const rowInputCell = "w-full focus:outline-none p-2";
 
