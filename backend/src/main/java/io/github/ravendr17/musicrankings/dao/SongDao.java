@@ -17,6 +17,30 @@ public class SongDao {
 	public SongDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	private final RowMapper<Song> songMapper = (rs, rowNum) -> {
+		Song song = new Song();
+		song.setId(rs.getLong("id"));
+		song.setTitle(rs.getString("title"));
+		song.setArtist(rs.getString("artist"));
+		song.setPlayCount(rs.getInt("play_count"));
+		return song;
+	};
+	
+	private final RowMapper<TopSongResponse> topSongResponseMapper = (rs, rowNum) -> {
+		TopSongResponse tsp = new TopSongResponse();
+		tsp.setTitle(rs.getString("title"));
+		tsp.setArtist(rs.getString("artist"));
+		tsp.setTotalPlayCount(rs.getInt("total_play_count"));
+		return tsp;
+	};
+	
+	private final RowMapper<SongLookupResponse> songLookupResponseMapper = (rs, rowNum) -> {
+		SongLookupResponse slr = new SongLookupResponse();
+		slr.setTitle(rs.getString("title"));
+		slr.setArtist(rs.getString("artist"));
+		return slr;
+	};
 
 	public void save(Song song) {
 		String sql = 
@@ -40,16 +64,7 @@ public class SongDao {
 			"FROM songs " +
 			"WHERE report_id = ?";
 		
-		RowMapper<Song> rowMapper = (rs, rowNum) -> {
-			Song song = new Song();
-			song.setId(rs.getLong("id"));
-			song.setTitle(rs.getString("title"));
-			song.setArtist(rs.getString("artist"));
-			song.setPlayCount(rs.getInt("play_count"));
-			return song;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper, reportId);
+		return jdbcTemplate.query(sql, songMapper, reportId);
 	}
 	
 	public List<TopSongResponse> findTopSongsByYear(int year, int limit) {
@@ -65,15 +80,7 @@ public class SongDao {
 		
 		Object[] values = {year, limit};
 		
-		RowMapper<TopSongResponse> rowMapper = (rs, rowNum) -> {
-			TopSongResponse tsp = new TopSongResponse();
-			tsp.setTitle(rs.getString("title"));
-			tsp.setArtist(rs.getString("artist"));
-			tsp.setTotalPlayCount(rs.getInt("total_play_count"));
-			return tsp;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper, values);
+		return jdbcTemplate.query(sql, topSongResponseMapper, values);
 	}
 	
 	public List<TopSongResponse> findAllTimeTopSongs(int limit) {
@@ -84,15 +91,7 @@ public class SongDao {
 			"ORDER BY total_play_count DESC " +
 			"LIMIT ?";
 		
-		RowMapper<TopSongResponse> rowMapper = (rs, rowNum) -> {
-			TopSongResponse tsp = new TopSongResponse();
-			tsp.setTitle(rs.getString("title"));
-			tsp.setArtist(rs.getString("artist"));
-			tsp.setTotalPlayCount(rs.getInt("total_play_count"));
-			return tsp;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper, limit);
+		return jdbcTemplate.query(sql, topSongResponseMapper, limit);
 	}
 	
 	public List<SongLookupResponse> findAllForLookup() {
@@ -100,14 +99,7 @@ public class SongDao {
 			"SELECT DISTINCT title, artist " +
 			"FROM songs ";
 		
-		RowMapper<SongLookupResponse> rowMapper = (rs, rowNum) -> {
-			SongLookupResponse slr = new SongLookupResponse();
-			slr.setTitle(rs.getString("title"));
-			slr.setArtist(rs.getString("artist"));
-			return slr;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper);
+		return jdbcTemplate.query(sql, songLookupResponseMapper);
 	}
 	
 }

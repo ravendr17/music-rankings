@@ -16,6 +16,16 @@ public class ReportDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
+	private final RowMapper<Report> reportMapper = (rs, rowNum) -> {
+		Report report = new Report();
+		report.setId(rs.getLong("id"));
+		report.setCreatedAt(rs.getString("created_at"));
+		report.setYear(rs.getInt("year"));
+		report.setMonth(rs.getInt("month"));
+		report.setTotalHours(rs.getInt("total_hours"));
+		return report;
+	};
+	
 	public Report save(Report report) {
 		String sql = 
 			"INSERT INTO reports " +
@@ -29,17 +39,7 @@ public class ReportDao {
 			report.getTotalHours()
 		};
 		
-		RowMapper<Report> rowMapper = (rs, rowNum) -> {
-			Report r = new Report();
-			r.setId(rs.getLong("id"));
-			r.setYear(rs.getInt("year"));
-			r.setMonth(rs.getInt("month"));
-			r.setTotalHours(rs.getInt("total_hours"));
-			r.setCreatedAt(rs.getString("created_at"));
-			return r;
-		};
-		
-		return jdbcTemplate.queryForObject(sql, rowMapper, values);
+		return jdbcTemplate.queryForObject(sql, reportMapper, values);
 	}
 	
 	public Optional<Report> findById(long reportId) {
@@ -47,17 +47,7 @@ public class ReportDao {
 			"SELECT * FROM reports " +
 			"WHERE id = ?";
 		
-		RowMapper<Report> rowMapper = (rs, rowNum) -> {
-			Report r = new Report();
-			r.setId(rs.getLong("id"));
-			r.setYear(rs.getInt("year"));
-			r.setMonth(rs.getInt("month"));
-			r.setTotalHours(rs.getInt("total_hours"));
-			r.setCreatedAt(rs.getString("created_at"));
-			return r;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper, reportId)
+		return jdbcTemplate.query(sql, reportMapper, reportId)
 				.stream()
 				.findFirst();
 	}
@@ -72,17 +62,7 @@ public class ReportDao {
 		
 		Object[] values = {year, month};
 		
-		RowMapper<Report> rowMapper = (rs, rowNum) -> {
-			Report report = new Report();
-			report.setId(rs.getLong("id"));
-			report.setCreatedAt(rs.getString("created_at"));
-			report.setYear(rs.getInt("year"));
-			report.setMonth(rs.getInt("month"));
-			report.setTotalHours(rs.getInt("total_hours"));
-			return report;
-		};
-		
-		return jdbcTemplate.query(sql, rowMapper, values)
+		return jdbcTemplate.query(sql, reportMapper, values)
 				.stream()
 				.findFirst();
 	}
