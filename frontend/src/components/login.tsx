@@ -1,14 +1,42 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  async function handleLogin(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const payload = {username, password};
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Success:", result);
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  }
+
   const inputStyle = "border p-1.5 w-full bg-white rounded-md";
 
   return (
     <div className="flex min-h-screen justify-center items-center">
-      <form className="bg-gray-200 w-100 h-100 rounded-md p-5 flex flex-col gap-6">
+      <form 
+        className="bg-gray-200 w-100 h-100 rounded-md p-5 flex flex-col gap-6"
+        onSubmit={(e) => handleLogin(e)}
+      >
         <div className="text-center font-bold text-xl">
           Music Rankings
         </div>
@@ -34,7 +62,7 @@ export default function Login() {
         />
 
         <button
-          type="button"
+          type="submit"
           className="border py-2.5 cursor-pointer rounded-md text-white
             bg-green-600 hover:bg-green-500 active:bg-green-400 w-full"
         >
