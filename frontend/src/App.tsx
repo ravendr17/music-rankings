@@ -1,5 +1,10 @@
+import {Route, Routes} from "react-router";
+
 export default function App() {
   return (
-    <div>Music Rankings</div>
-  )
+    <Routes>
+      <Route path="/" element={<div>Music Rankings</div>} />
+      <Route path="/login" element={<div>Login</div>} />
+    </Routes>
+  );
 }
